@@ -1,0 +1,29 @@
+django-admin startproject eventsys
+cd eventsys
+python manage.py startapp events
+from django.db import models
+
+class Event(models.Model):
+    name = models.CharField(max_length=100)
+    date = models.DateTimeField()
+    description = models.TextField()
+
+class Registration(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    attendee_name = models.CharField(max_length=100)
+    email = models.EmailField()
+from django.shortcuts import render, redirect
+from .models import Event, Registration
+from django.http import HttpResponse
+
+def event_list(request):
+    events = Event.objects.all()
+    return render(request, 'events/list.html', {'events': events})
+
+def register(request, event_id):
+    if request.method == "POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        Registration.objects.create(event_id=event_id, attendee_name=name, email=email)
+        return HttpResponse("Registered successfully")
+    return render(request, 'events/register.html', {'event_id': event_id})
