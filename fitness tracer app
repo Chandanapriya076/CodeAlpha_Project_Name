@@ -1,0 +1,38 @@
+<!-- fitness_tracker.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fitness Tracker</title>
+</head>
+<body>
+  <h2>Workout Logger</h2>
+  <input type="text" id="exercise" placeholder="Exercise name" />
+  <input type="number" id="duration" placeholder="Minutes" />
+  <button onclick="logWorkout()">Add</button>
+
+  <ul id="logList"></ul>
+
+  <script>
+    let logs = [];
+
+    function logWorkout() {
+      const exercise = document.getElementById("exercise").value;
+      const duration = document.getElementById("duration").value;
+      if (exercise && duration) {
+        logs.push({ exercise, duration });
+        updateLog();
+      }
+    }
+
+    function updateLog() {
+      const list = document.getElementById("logList");
+      list.innerHTML = "";
+      logs.forEach((log, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${log.exercise} - ${log.duration} min`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
