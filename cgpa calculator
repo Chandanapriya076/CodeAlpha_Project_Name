@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class CGPACalculator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of courses: ");
+        int n = sc.nextInt();
+        double totalCredits = 0, totalGradePoints = 0;
+
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Course " + i + " - Enter credits: ");
+            double credits = sc.nextDouble();
+            System.out.print("Course " + i + " - Enter grade point (e.g., A=10, B=8): ");
+            double grade = sc.nextDouble();
+
+            totalCredits += credits;
+            totalGradePoints += credits * grade;
+        }
+
+        double cgpa = totalGradePoints / totalCredits;
+        System.out.printf("Your CGPA is: %.2f\n", cgpa);
+    }
+}
