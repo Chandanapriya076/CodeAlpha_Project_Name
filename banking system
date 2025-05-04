@@ -1,0 +1,95 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+class Account {
+    string holder;
+    string accNo;
+    double balance;
+
+public:
+    Account(string name, string acc, double bal) {
+        holder = name;
+        accNo = acc;
+        balance = bal;
+    }
+
+    void deposit(double amt) {
+        balance += amt;
+    }
+
+    bool withdraw(double amt) {
+        if (amt <= balance) {
+            balance -= amt;
+            return true;
+        }
+        return false;
+    }
+
+    void display() {
+        cout << "Holder: " << holder << endl;
+        cout << "Account No: " << accNo << endl;
+        cout << "Balance: " << balance << endl;
+    }
+
+    string getAccNo() {
+        return accNo;
+    }
+};
+
+unordered_map<string, Account*> accounts;
+
+void createAccount() {
+    string name, accNo;
+    double balance;
+    cout << "Enter name: ";
+    cin >> name;
+    cout << "Enter account number: ";
+    cin >> accNo;
+    cout << "Enter initial balance: ";
+    cin >> balance;
+    accounts[accNo] = new Account(name, accNo, balance);
+    cout << "Account created.\n";
+}
+
+void accessAccount() {
+    string accNo;
+    cout << "Enter account number: ";
+    cin >> accNo;
+    if (accounts.find(accNo) == accounts.end()) {
+        cout << "Account not found.\n";
+        return;
+    }
+
+    Account* acc = accounts[accNo];
+    int choice;
+    do {
+        cout << "\n1. Deposit 2. Withdraw 3. View Info 4. Exit\nChoice: ";
+        cin >> choice;
+        if (choice == 1) {
+            double amt;
+            cout << "Enter amount: ";
+            cin >> amt;
+            acc->deposit(amt);
+        } else if (choice == 2) {
+            double amt;
+            cout << "Enter amount: ";
+            cin >> amt;
+            if (!acc->withdraw(amt))
+                cout << "Insufficient balance.\n";
+        } else if (choice == 3) {
+            acc->display();
+        }
+    } while (choice != 4);
+}
+
+int main() {
+    int ch;
+    do {
+        cout << "\n1. Create Account 2. Access Account 3. Exit\nEnter choice: ";
+        cin >> ch;
+        if (ch == 1) createAccount();
+        else if (ch == 2) accessAccount();
+    } while (ch != 3);
+    return 0;
+}
