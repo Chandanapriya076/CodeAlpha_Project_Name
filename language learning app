@@ -1,0 +1,41 @@
+<!-- language_learning.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Language Learning App</title>
+</head>
+<body>
+  <h2>Vocabulary Quiz</h2>
+  <p id="question"></p>
+  <input type="text" id="answer" placeholder="Type your answer" />
+  <button onclick="checkAnswer()">Submit</button>
+  <p id="feedback"></p>
+
+  <script>
+    const vocab = [
+      { question: "Hello (in Spanish)", answer: "Hola" },
+      { question: "Thank you (in French)", answer: "Merci" },
+      { question: "Goodbye (in German)", answer: "Tschüss" }
+    ];
+
+    let current = 0;
+
+    function loadQuestion() {
+      document.getElementById("question").innerText = vocab[current].question;
+      document.getElementById("answer").value = "";
+      document.getElementById("feedback").innerText = "";
+    }
+
+    function checkAnswer() {
+      const userAns = document.getElementById("answer").value.trim();
+      const correctAns = vocab[current].answer;
+      document.getElementById("feedback").innerText =
+        userAns.toLowerCase() === correctAns.toLowerCase() ? "Correct!" : `Wrong. Correct: ${correctAns}`;
+      current = (current + 1) % vocab.length;
+      setTimeout(loadQuestion, 2000);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
